@@ -1,5 +1,5 @@
 from flask import Flask
-from routes.players import players
+from routes.nbaTest import nbaTest
 from flask_sqlalchemy import SQLAlchemy
 from config import DATABASE_CONNECTION_URI
 
@@ -10,6 +10,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 SQLAlchemy(app)
 
-app.register_blueprint(players)
+app.register_blueprint(nbaTest)
 
  
