@@ -1,10 +1,10 @@
 
-from _typeshed import Self
 from utils.db import db
 
 class Players(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    playerName = db.Column(db.String(20), nulleable = False)
+    PLAYER_ID = db.Column(db.Integer, primary_key = True)
+    Names = db.Column(db.String(100), nullable = False)
     
-    def __init__(self, name):
-        self.playerName = name
+    def __init__(self, playerId, name):
+        self.PLAYER_ID = playerId
+        self.Names = name
