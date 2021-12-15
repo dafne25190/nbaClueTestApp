@@ -1,4 +1,4 @@
-#NBA CLUE TEST APP
+# NBA CLUE TEST APP
 
 Es una aplicación visual de prueba en la que usted podrá:
 1. Crear la Base de Datos Normalizada de las Estadísticas de la NBA dado un conjunto de .csv.
@@ -16,7 +16,7 @@ En la página principal de la aplicación usted podrá:
 1. Crear la Base de Datos (Debe tener en cuenta que esto puede tomar unos minutos).
 2. Navegar a través de las páginas de nuestra web (Prediction y Best Player)
 
-![HOME](image/HOME.JPG)
+![HOME](image/Home.JPG)
 
 ## Best Player
 
@@ -38,13 +38,13 @@ En esta página podrá obtener el posible ganador entre dos equipos de la NBA.
 
 ## Creación de La Base de Datos
 
-Para la creacion de la BD se utilizaron principalmente dos bibliotecas de python. 
-1. Pandas para manipular los datos desde los .csv y hacer todos los pasos de la normalizacion. 
-2. flask_sqlalchemy para la creación de la BD en MySQL y su consulta. 
+Para la creación de la BD se utilizaron principalmente dos bibliotecas de python. 
+1. [Pandas](https://pypi.org/project/pandas/) para manipular los datos desde los .csv y hacer todos los pasos de la normalizacion. 
+2. [Flask_sqlalchemy](https://pypi.org/project/Flask-SQLAlchemy/) para la creación de la BD en MySQL y su consulta. 
 
 En este aspecto podemos mencionar los elementos más relevantes:
 
-1. Se creo el modelo de Base de Datos que no es más que un conjunto de clases que representan cada una de las tablas. Ejemplo:
+1. Se creó el modelo de Base de Datos que no es más que un conjunto de clases que representan cada una de las tablas. Ejemplo:
 
     ```python
     class Players(db.Model):
@@ -65,7 +65,7 @@ En esta sección solo fue necesario hacer una consulta a la Base de Datos para e
 
 ## Creación del Modelo de Predicción
 
-Para la creación del modelo de predicción que obtiene el equipo ganador de dos posibles se emplearon las bibliotecas de python, sklearn y numpy. Dentro de sklearn se emplearon las funcionalidades KernelDensity y RandomForestRegressor. 
+Para la creación del modelo de predicción que obtiene el equipo ganador de dos posibles se emplearon las bibliotecas de python: [sklearn](https://scikit-learn.org/stable/install.html) y [numpy](https://pypi.org/project/numpy/). Dentro de sklearn se emplearon las funcionalidades [KernelDensityEstimation](https://scikit-learn.org/stable/auto_examples/neighbors/plot_kde_1d.html) y [RandomForestRegressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html). 
 
 Se siguió la siguiente idea para la construcción del modelo de predicción: 
 
