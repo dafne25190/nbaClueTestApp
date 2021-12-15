@@ -92,6 +92,7 @@ FIELDS_TO_APPLIED_KDE = ['FG_PCT_home', 'FT_PCT_home','FG3_PCT_home', 'AST_home'
 4. Para crear el conjunto de partidos simulados entre ambos equipos se utiliza el algortimo KernelDensityEstimation, en el que se estima la función de probabilidad de cada uno de los elementos del vector de características para cada equipo. Se realiza una ponderación lineal de los datos dándole más peso a los elementos logrados más recientemente en el tiempo. 
 
 5. Primeramente se aplica un cross-validation para detectar qué función se aproxima mejor al kernel y determinar el bandwith. A continuación una muestra del código para obtener el KDE.
+
 ```python 
 def kde_model(ponderate_value):
     param_grid = {'kernel': ['gaussian', 'tophat'],
@@ -113,7 +114,8 @@ def kde_model(ponderate_value):
         value = modelo_kde_final.sample()
         prediction.append(value[0][0])
     return prediction
-    ```
+```
+
 5. Finalmente con el conjunto de posibles partidos entre ambos equipos se aplica RandomForest para predicir el resultado de esos encuentros y se devuelve como ganador el que mayor número de victorias obtuvo.
 
 ```python
