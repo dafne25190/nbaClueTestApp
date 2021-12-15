@@ -58,6 +58,16 @@ En este aspecto podemos mencionar los elementos más relevantes:
 
 2. Se realizan un conjunto de preprocesamiento de los datos, con la ayuda de los DataFrame que permiten obtener un modelo de BD normalizados. Para ello, se eliminaron elementos repetidos, se atomizaron algunos elementos de las tablas y se crearon tablas nuevas que permiten la independencia de los datos. Todo esto puede consultarse en el fichero [createDatabase.py](/utils/createDatabase.py)
 
+```python
+def createDataBase ():
+    all_datas = readAllData(data_path)
+    (dataBaseData, index) = normalizeData(all_datas)
+    for key in dataBaseData:
+        dataBaseData[key].to_sql(name=key.lower(), con=db.engine, index=index[key], if_exists='append')
+    
+    
+```
+
 ## Obtención del mejor jugador
 
 En esta sección solo fue necesario hacer una consulta a la Base de Datos para ello se usaron los recursos de MySQL y SQLAlchemy. La consulta tiene algunos elementos importantes como la obtención de la semana a partir de una fecha dada, lo cual fue resuelto con la función WEEK de MySQL. Puede consultar el fichero [best_player.py](/utils/best_player.py)
@@ -70,11 +80,54 @@ Para la creación del modelo de predicción que obtiene el equipo ganador de dos
 Se siguió la siguiente idea para la construcción del modelo de predicción: 
 
 1. Se crea un vector de características con los principales datos de los partidos de cada equipo (% de canastas de 2ptos, % de canastas de 3ptos, % de tiros libres, % de asistencias, % de rebotes, etc.). 
-2. Dado ese vector de característica extraído de la Base de Datos. Se define, de entre todos los partidos, el conjunto de entrenamiento y el de evaluación y se predice el resultado en puntos de culaquier partido utilizando Random Forest Regression. 
-3. En este puento, se decide crear una simulación de partidos entre los dos equipos para los cuales se quiere predecir el ganador. Y se utiliza este conjunto de partidos simulados como conjunto resultante en la predicción. 
+```python
+FIELDS_TO_APPLIED_KDE = ['FG_PCT_home', 'FT_PCT_home','FG3_PCT_home', 'AST_home', 'REB_home',
+                  'FG_PCT_away', 'FT_PCT_away', 'FG3_PCT_away',  'AST_away',  'REB_away'  ]
+```
+
+2. Dado ese vector de característica extraído de la Base de Datos. Se define, de entre todos los partidos, el conjunto de entrenamiento y el de evaluación y se predice el resultado en puntos de culaquier partido utilizando Random Forest Regressor. 
+
+3. En este punto, se decide crear una simulación de partidos entre los dos equipos para los cuales se quiere predecir el ganador. Y se utiliza este conjunto de partidos simulados como conjunto resultante en la predicción. 
+
 4. Para crear el conjunto de partidos simulados entre ambos equipos se utiliza el algortimo KernelDensityEstimation, en el que se estima la función de probabilidad de cada uno de los elementos del vector de características para cada equipo. Se realiza una ponderación lineal de los datos dándole más peso a los elementos logrados más recientemente en el tiempo. 
+
+5. Primeramente se aplica un cross-validation para detectar qué función se aproxima mejor al kernel y determinar el bandwith. A continuación una muestra del código para obtener el KDE.
+```python 
+def kde_model(ponderate_value):
+    param_grid = {'kernel': ['gaussian', 'tophat'],
+              'bandwidth' : np.linspace(0.01, 3, 10)
+             }
+
+    grid = GridSearchCV(
+        estimator  = KernelDensity(),
+        param_grid = param_grid,
+        n_jobs     = -1,
+        cv         = 10, 
+        verbose    = 0
+      )
+
+    _ = grid.fit(X = ponderate_value.reshape((-1,1)))
+    modelo_kde_final = grid.best_estimator_
+    prediction = []
+    for i in range(1,30):
+        value = modelo_kde_final.sample()
+        prediction.append(value[0][0])
+    return prediction
+    ```
 5. Finalmente con el conjunto de posibles partidos entre ambos equipos se aplica RandomForest para predicir el resultado de esos encuentros y se devuelve como ganador el que mayor número de victorias obtuvo.
 
-Puede consultar la implemetación en el fichero [prediction.py](/utils/prediction.py)
+```python
+def rfr_Prediction(X_train,y_train, X_test):
+    parameters = {'bootstrap': False,
+                  'min_samples_leaf': 3,
+                  'n_estimators': 50,
+                  'min_samples_split': 10,
+                  'max_features': 'sqrt',
+                  'max_depth': 6}
+    model = RandomForestRegressor(**parameters)
+    model.fit(X_train, y_train)
+    return model.predict(X_test).astype(int)
+```
+Puede consultar la implemetación completa en el fichero [prediction.py](/utils/prediction.py)
 
 
