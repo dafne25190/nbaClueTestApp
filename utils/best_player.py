@@ -9,7 +9,7 @@ from sqlalchemy.sql import text
 def best_player(season):
     season_str = str(season)
     connection = db.session.connection()
-    query = "Select week, PLAYER_ID, max(productivity) From (SELECT PLAYER_ID, WEEK(Games.GAME_DATE_EST) as week, (sum(GamesPlayer.REB) +sum(GamesPlayer.PTS) + sum(GamesPlayer.AST)) as productivity FROM GamesPlayer join Games on GamesPlayer.GAME_ID = Games.GAME_ID WHERE Games.SEASON = :season GROUP by week, PLAYER_ID) as T GROUP by week"
+    query = "Select week, players.Names, prod from ( Select week, T.PLAYER_ID, max(T.productivity) as prod From (SELECT gamesplayer.PLAYER_ID, WEEK(games.GAME_DATE_EST) as week, (sum(gamesplayer.REB) +sum(gamesplayer.PTS) + sum(gamesplayer.AST)) as productivity FROM gamesplayer join games on gamesplayer.GAME_ID = games.GAME_ID WHERE games.SEASON = :season GROUP by week, PLAYER_ID) as T GROUP by week) as new JOIN players on players.PLAYER_ID = new.PLAYER_ID"
     result = connection.execute(text(query), season = season)
     result_dict = result.mappings().all()
     print(result_dict)
