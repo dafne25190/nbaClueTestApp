@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request
 from utils.createDatabase import createDataBase 
 from utils.prediction import  prediction, getAllTeams
 from models.games import Games
@@ -12,10 +12,7 @@ nbaTest = Blueprint('nbaTest',__name__)
 @nbaTest.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        print('Entre')
-        flash("Esto puede tomar unos minutos ...")
         createDataBase()
-        flash ("Se ha creado la Base de Datos")
     return render_template('index.html')
 
 @nbaTest.route('/best_player', methods=['GET', 'POST'])
