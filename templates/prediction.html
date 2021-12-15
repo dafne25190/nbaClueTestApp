@@ -11,7 +11,7 @@
                 <div class="row " style=" margin-bottom: 20px;">
                     <div class="col-md-6" style="float: left;">
                         <select class="btn btn-outline-secondary dropdown-toggle" name="home_team">
-                            <option value="" selected disabled="disabled" default="true">Equipo Local</option>
+                            <option value="" selected disabled="disabled" default="true">Home Club</option>
                             {% for team in all_teams %}
                             <option value="{{team[0]}}">{{team[1]}}</option>
                             {% endfor %}
@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-6" style="float: right">
                         <select class="btn btn-outline-secondary dropdown-toggle" name="away_team">
-                            <option value="" selected disabled="disabled" default="true">Equipo Visitador</option>
+                            <option value="" selected disabled="disabled" default="true">Visitor</option>
                             {% for team in all_teams %}
                             <option value="{{team[0]}}">{{team[1]}}</option>
                             {% endfor %}
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="row">
-                    <input type="submit" action="loadWinner" value="Equipo Ganador"
+                    <input type="submit" action="loadWinner" value="WINNING TEAM"
                         class="btn btn-secondary btn-lg pd-4"></input>
                 </div>
             </form>

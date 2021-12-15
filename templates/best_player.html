@@ -9,7 +9,7 @@
                 <div class="col-md-6 " style="float: left; margin-top: 6px;">
                     <div class="d-flex align-items-center justify-content-center">
                         <select class="btn btn-outline-secondary dropdown-toggle align-items-center" name="seasons">
-                            <option value="" selected disabled="disabled" default="true">Seasons</option>
+                            <option value="" selected disabled="disabled" default="true">Season</option>
                             {% for season in seasons %}
                             <option value="{{season}}">{{season}}</option>
                             {% endfor %}
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-6 " style="float: right;">
                     <div class="d-flex align-items-center justify-content-center pd-8">
-                        <input type="submit" action="loadBP" value="Mejor Jugador"
+                        <input type="submit" action="loadBP" value="Best Player"
                             class="btn btn-secondary btn-lg pd-4"></input>
                     </div>
                 </div>
@@ -33,8 +33,8 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Semana</th>
-                        <th scope="col">Jugador</th>
+                        <th scope="col">Week</th>
+                        <th scope="col">Player</th>
                     </tr>
                 </thead>
                 <tbody>
