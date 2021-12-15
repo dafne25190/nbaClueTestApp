@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{%block content%}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form method="post" action="/best_player">
+                <div class="col-md-6 " style="float: left; margin-top: 6px;">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <select class="btn btn-outline-secondary dropdown-toggle align-items-center" name="seasons">
+                            <option value="" selected disabled="disabled" default="true">Seasons</option>
+                            {% for season in seasons %}
+                            <option value="{{season}}">{{season}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6 " style="float: right;">
+                    <div class="d-flex align-items-center justify-content-center pd-8">
+                        <input type="submit" action="loadBP" value="Mejor Jugador"
+                            class="btn btn-secondary btn-lg pd-4"></input>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4"> </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            {% if bestPlayers != [] %}
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Semana</th>
+                        <th scope="col">Jugador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for player in bestPlayers%}
+                    <tr>
+                        <td>{{player['week']}}</td>
+                        <td>{{player['Names']}}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            {%endif%}
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+{%endblock%}

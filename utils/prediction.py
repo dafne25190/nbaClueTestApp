@@ -97,3 +97,7 @@ def obtain_winner(prediction):
     print(first_team)
     if(len(prediction)/2>first_team): return 1 
     else: return 0
+
+def getAllTeams ():
+    teams = db.session.query(Teams.TEAM_ID, Teams.NICKNAME).order_by(Teams.NICKNAME).distinct(Teams.TEAM_ID).all()
+    return teams

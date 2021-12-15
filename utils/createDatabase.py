@@ -148,7 +148,6 @@ def createDataBase ():
     all_datas = readAllData(data_path)
     (dataBaseData, index) = normalizeData(all_datas)
     for key in dataBaseData:
-        # createTable(dataBaseData, key)
         dataBaseData[key].to_sql(name=key.lower(), con=db.engine, index=index[key], if_exists='append')
     
     
